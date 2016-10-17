@@ -3,6 +3,7 @@ package Classes.Formats;
 import Classes.data;
 import Utilities.Converter;
 import Utilities.Converters.LibreOffice;
+import Utilities.Converters.OfficeWord;
 
 /*
  * @Author: Fábio Moreira Duarte
@@ -23,8 +24,8 @@ public class docx extends format{
 	protected void Inicialize() {
 		tempFileName = tempDirectory+"tempDocConverted.pdf";
 		ResetPage(tempFileName);
-		this.converter = new LibreOffice();
-		//this.converter = new OfficeWord();
+		//this.converter = new LibreOffice();
+		this.converter = new OfficeWord();
 	}
 
 	//that function create a pdf file from a docx file, using the JodConverter library, for more information visit : "http://www.artofsolving.com/opensource/jodconverter.html"

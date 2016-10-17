@@ -47,7 +47,7 @@ public class Summary{
 		int pageCount = 1;
 		
 		//This part write the Summary String for a title 
-		String Tittle = "Sumario";
+		String Tittle = "Sumário";
 		float center = summaryPage.getMediaBox().getWidth()*.5f - getStringWidth(Tittle,summaryPage.getMediaBox().getWidth(),fontStyle,fontSize)/2;
 		writeLine(center,heighTitle,contentStream,Tittle,fontStyle,fontSize);
 		fontSize=10;
