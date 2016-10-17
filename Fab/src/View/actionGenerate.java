@@ -27,11 +27,15 @@ public class actionGenerate implements ActionListener{
 	
 	//this function set a cover folder, first it search for a folder name that contains the word "capa" ou "capas", otherwise set the first folder as cover
 	private void getCover(){
+		int error = 0;
 		for(int i=0;i<datafiles.getFilePatchSize();i++){
+			if(datafiles.getFilePatch(i).GEtParentName().toLowerCase().equals(".gitignore")){
+				error++;
+			}
 			if(datafiles.getFilePatch(i).GEtParentName().toLowerCase().indexOf("capa") != -1 || datafiles.getFilePatch(i).GEtParentName().toLowerCase().indexOf("capas") != -1){
-				datafiles.GetMenu(i).placeOnSummary = false;
-				datafiles.SetCover(i);
-				cover = datafiles.GetMenu(i);
+				datafiles.GetMenu(i-error).placeOnSummary = false;
+				datafiles.SetCover(i-error);
+				cover = datafiles.GetMenu(i-error);
 				return;
 			}
 		}
