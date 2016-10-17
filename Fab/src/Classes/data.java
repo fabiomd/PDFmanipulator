@@ -97,30 +97,32 @@ public class data implements init,create{
 		}
 		//Then for each folder he will call the function GetChilds, getting all the files inside of it
 		for(int i=0;i<files.length;i++){
-			JButton temp_Jbutton = new JButton();
-			temp_Jbutton.setText(files[i].getName());
-			temp_Jbutton.setHorizontalAlignment(SwingConstants.LEFT);
-			temp_Jbutton.setName(files[i].getName());
-		    temp_Jbutton.setMaximumSize(new Dimension(650, 50));
-			menu temp_menu =  new menu(temp_Jbutton);
-			File[] sub_files = fileUtility.GetChilds(directory.folderName + "/" + files[i].getName());
-			filepatchs.add(new filePatchs(files[i]));
-			//Next for each file will create a menu and initialize it
-			int j=0;
-			if(sub_files != null){
-				for(j=0;j<sub_files.length;j++){
-					if(checkSupported(sub_files[j].getName())){
-						JCheckBox temp_jcheckbox = new JCheckBox();
-						temp_jcheckbox.setText(sub_files[j].getName());
-						temp_jcheckbox.setVisible(false);
-						temp_jcheckbox.setSelected(false);
-						temp_menu.addCheckbox(temp_jcheckbox);  
+			if(!files[i].getName().toLowerCase().equals(".gitignore")){
+				JButton temp_Jbutton = new JButton();
+				temp_Jbutton.setText(files[i].getName());
+				temp_Jbutton.setHorizontalAlignment(SwingConstants.LEFT);
+				temp_Jbutton.setName(files[i].getName());
+				temp_Jbutton.setMaximumSize(new Dimension(650, 50));
+				menu temp_menu =  new menu(temp_Jbutton);
+				File[] sub_files = fileUtility.GetChilds(directory.folderName + "/" + files[i].getName());
+				filepatchs.add(new filePatchs(files[i]));
+				//Next for each file will create a menu and initialize it
+				int j=0;
+				if(sub_files != null){
+					for(j=0;j<sub_files.length;j++){
+						if(checkSupported(sub_files[j].getName())){
+							JCheckBox temp_jcheckbox = new JCheckBox();
+							temp_jcheckbox.setText(sub_files[j].getName());
+							temp_jcheckbox.setVisible(false);
+							temp_jcheckbox.setSelected(false);
+							temp_menu.addCheckbox(temp_jcheckbox);  
+						}
 					}
+					//then add it to the list
 				}
-				//then add it to the list
-			}
-			if(j>0){
-				menus.add(temp_menu);
+				if(j>0){
+					menus.add(temp_menu);
+				}
 			}
 		}
 	}
