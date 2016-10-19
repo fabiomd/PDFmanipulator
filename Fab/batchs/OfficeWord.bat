@@ -1,4 +1,5 @@
 chcp 1252
+cd %~dp0
 pushd ..
 set /p officePatch=< paths/officePatch.txt
 set /p docxConvertTemp=< paths/DocxTempFile.txt
