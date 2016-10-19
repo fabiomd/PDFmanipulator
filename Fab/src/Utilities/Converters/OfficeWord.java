@@ -37,10 +37,14 @@ public class OfficeWord extends Converter{
 		File outputFile = new File("paths\\DocxTempFile.txt");
 		try {
 			fileUtility.WriteFile(inputFile,Input);
-			fileUtility.WriteFile(outputFile,Output);
+			fileUtility.WriteFile(outputFile,removeExtension(Output));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private String removeExtension(String filePatch){
+		return filePatch.split("\\.")[0];
 	}
 }

@@ -19,7 +19,7 @@ public abstract class format implements create{
 	protected data datafile = null;
 	public int cover = -1;
 	protected Summary summary;
-	protected String tempDirectory = "TEMP/";
+	protected String tempDirectory = "TEMP\\";
 	protected String tempFileName;
 	
 	//this function compares the class name, if is equals then the string passed is a format recognizeble by data
