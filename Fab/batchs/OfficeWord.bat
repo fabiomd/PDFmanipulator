@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 chcp 1252
 cd %~dp0
 pushd ..
@@ -9,17 +9,3 @@ set convertFile= "%cd%\%convertFile%"
 C:
 cd %officePatch%
 WINWORD.EXE /mDocxToPDF /q %convertFile%
-pause
-=======
-chcp 1252
-pushd ..
-set /p officePatch=< paths/officePatch.txt
-set /p docxConvertTemp=< paths/DocxTempFile.txt
-set /p convertFile=< paths/convertFilePatch.txt
-set convertFile= "%cd%\%convertFile%"
-C:
-cd %officePatch%
-WINWORD.EXE /mDocxToPDF /q %convertFile%
-pause
->>>>>>> refs/remotes/origin/master
-EXIT
