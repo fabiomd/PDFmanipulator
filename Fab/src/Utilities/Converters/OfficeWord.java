@@ -2,6 +2,7 @@ package Utilities.Converters;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import Utilities.Converter;
 import Utilities.fileUtility;
@@ -23,8 +24,14 @@ public class OfficeWord extends Converter{
 	public void Convert(String Input, String Output) {
 		SetPath(Input,Output);
 		try {
-			Runtime.getRuntime().exec("cmd /c start batchs\\OfficeWord.bat");
+			Process process = Runtime.getRuntime().exec("cmd /c start batchs\\OfficeWord.bat");
+			if(process.waitFor()==0){
+				System.out.println("Converted");
+			}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
