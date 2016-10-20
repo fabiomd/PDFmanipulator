@@ -6,6 +6,7 @@ import java.util.Date;
 
 import Utilities.Converter;
 import Utilities.fileUtility;
+import Utilities.windowUtility;
 
 /*
  * @Author: Fábio Moreira Duarte
@@ -26,7 +27,7 @@ public class OfficeWord extends Converter{
 		try {
 			Process process = Runtime.getRuntime().exec("cmd /c start batchs\\OfficeWord.bat");
 			if(process.waitFor()==0){
-				System.out.println("Converted");
+				windowUtility.errorMessage("Convertido");
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

@@ -1,3 +1,4 @@
+@echo off
 chcp 1252
 cd %~dp0
 pushd ..
