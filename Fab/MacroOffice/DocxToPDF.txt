@@ -2,7 +2,7 @@
 Sub DocxToPDF()
 ChangeFileOpenDirectory ThisDocument.Path
     ActiveDocument.ExportAsFixedFormat _
-        OutputFileName:=Left(ActiveDocument.FullName, InStrRev("D:\Users\tecengenharia\git\PDFManipulator\Fab\","TEMP\tempDocConverted", ".")) + "pdf", _
+        OutputFileName:="D:\Users\tecengenharia\git\PDFManipulator\Fab\TEMP\tempDocConverted.pdf", _
         ExportFormat:=wdExportFormatPDF, _
         OpenAfterExport:=False, _
         OptimizeFor:=wdExportOptimizeForPrint, _

@@ -1,5 +1,4 @@
 cd %~dp0
-pushd ..
-call batchs/ConfigureOffice.bat
-call batchs/ConfigureMacro.bat
-EXIT
+call ConfigureOffice.bat
+cd %~dp0
+call ConfigureMacro.bat

@@ -114,7 +114,7 @@ public class PDF extends format{
 		try {
 			ReadCover();
 			loadTemp();
-			summary.Generate(tempDocument);
+			//summary.Generate(tempDocument);
 			unloadTemp();
 			for(int i=0;i<datafile.GetMenusSize();i++){
 				if(i!=cover){

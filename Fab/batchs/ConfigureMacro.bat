@@ -7,7 +7,7 @@ set /p convertDoc=< paths/DocxTempFile.txt
 @echo Sub DocxToPDF()>> MacroOffice/DocxToPDF.txt
 @echo ChangeFileOpenDirectory ThisDocument.Path>> MacroOffice/DocxToPDF.txt
 @echo     ActiveDocument.ExportAsFixedFormat _>> MacroOffice/DocxToPDF.txt
-@echo         OutputFileName:=Left(ActiveDocument.FullName, InStrRev("%cd%\","%convertDoc%", ".")) + "pdf", _>> MacroOffice/DocxToPDF.txt
+@echo         OutputFileName:="%cd%\%convertDoc%", _>> MacroOffice/DocxToPDF.txt
 @echo         ExportFormat:=wdExportFormatPDF, _>> MacroOffice/DocxToPDF.txt
 @echo         OpenAfterExport:=False, _>> MacroOffice/DocxToPDF.txt
 @echo         OptimizeFor:=wdExportOptimizeForPrint, _>> MacroOffice/DocxToPDF.txt
