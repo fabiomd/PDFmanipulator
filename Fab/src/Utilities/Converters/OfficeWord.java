@@ -11,6 +11,7 @@ import Utilities.windowUtility;
 /*
  * @Author: Fábio Moreira Duarte
  * This class is a converter, overrite some converter function to work on a specific format DOCx
+ * This function will call a batch file and that file is responsible for converting
  * */
 
 public class OfficeWord extends Converter{
