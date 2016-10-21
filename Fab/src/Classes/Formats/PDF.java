@@ -76,7 +76,6 @@ public class PDF extends format{
 	//This function is responsible for loading the file and reading the pages, if its not in pdf format, will automatically convert it and add
 	private void ReadDoc(File file) throws IOException{
 		File tempFile = file;
-		PDDocument document = null;
 		format tempFormat = null;
 		//This part is the one responsable for checking if the file required is already on pdf format, if not will seek his format and convert it
 		if(!match(file.getName())){
@@ -84,12 +83,13 @@ public class PDF extends format{
 			tempFile = convert(tempFormat,file);
 		}
 		
-		document = PDDocument.load(tempFile,MemoryUsageSetting.setupTempFileOnly());
+		PDDocument document = PDDocument.load(tempFile,MemoryUsageSetting.setupTempFileOnly());
 		try {
 			loadTemp();
 			if(document!=null && tempDocument!=null){
 				for(int i=0;i<document.getDocumentCatalog().getPages().getCount();i++){
 					PDPage tempPag = (PDPage)document.getDocumentCatalog().getPages().get(i);
+					formatPage(tempPag);
 					tempDocument.importPage(tempPag);
 				}
 			}
@@ -104,7 +104,7 @@ public class PDF extends format{
 				document.close();
 			}
 			if(tempFormat != null){
-				tempFormat.ResetPage(tempFormat.tempFileName);
+				tempFormat.ResetPage(tempFormat.tempDirectory + tempFormat.tempFileName);
 			}
 		}
 	}
