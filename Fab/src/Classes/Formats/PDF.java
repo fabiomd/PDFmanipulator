@@ -3,6 +3,8 @@ package Classes.Formats;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.ClosedDirectoryStreamException;
+import java.util.Date;
+
 import org.apache.pdfbox.io.MemoryUsageSetting;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -43,16 +45,45 @@ public class PDF extends format{
 		}
 	}
 	
+	//this function will sleep 1 until the file is modify or the limit is reach
+	private boolean waitConvertion(File file,Date lastModify,int max){
+		int count = 0;
+		while(new Date(file.lastModified()).equals(lastModify) && count < max){
+			try {
+				Thread.sleep(1000);
+				count++;
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return count < max;
+	}
+	
+	
+	private File convert(format tempFormat,File file){
+		File fileTemp = new File(tempFormat.tempFileName);
+		Date lastModify = new Date(fileTemp.lastModified());
+		tempFormat.Create(file.getPath());
+		if(!waitConvertion(fileTemp,lastModify,180)){
+			windowUtility.errorMessage("Tempo excedido");
+		}else{
+			windowUtility.errorMessage(lastModify + "\n" + new Date(fileTemp.lastModified()));
+		}
+		return new File(tempFormat.tempFileName);
+	}
+	
 	//This function is responsible for loading the file and reading the pages, if its not in pdf format, will automatically convert it and add
 	private void ReadDoc(File file) throws IOException{
 		File tempFile = file;
 		PDDocument document = null;
+		format tempFormat = null;
 		//This part is the one responsable for checking if the file required is already on pdf format, if not will seek his format and convert it
 		if(!match(file.getName())){
-			format tempFormat = datafile.getFormat(datafile.matchFormat(file.getName()));
-			tempFormat.Create(file.getPath());
-			tempFile = new File(tempFormat.tempFileName);
+			tempFormat = datafile.getFormat(datafile.matchFormat(file.getName()));
+			tempFile = convert(tempFormat,file);
 		}
+		
 		document = PDDocument.load(tempFile,MemoryUsageSetting.setupTempFileOnly());
 		try {
 			loadTemp();
@@ -71,6 +102,9 @@ public class PDF extends format{
 			}
 			if(document!=null){
 				document.close();
+			}
+			if(tempFormat != null){
+				tempFormat.ResetPage(tempFormat.tempFileName);
 			}
 		}
 	}
@@ -113,9 +147,9 @@ public class PDF extends format{
 		PDDocument document = new PDDocument(MemoryUsageSetting.setupTempFileOnly());
 		try {
 			ReadCover();
-			loadTemp();
+			//loadTemp();
 			//summary.Generate(tempDocument);
-			unloadTemp();
+			//unloadTemp();
 			for(int i=0;i<datafile.GetMenusSize();i++){
 				if(i!=cover){
 					for(int j=0;j<datafile.GetMenu(i).GetMenusSize();j++){

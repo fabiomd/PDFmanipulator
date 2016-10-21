@@ -9,3 +9,4 @@ set convertFile= "%cd%\%convertFile%"
 C:
 cd %officePatch%
 WINWORD.EXE /mDocxToPDF /q %convertFile%
+EXIT

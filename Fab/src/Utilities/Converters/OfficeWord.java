@@ -26,19 +26,13 @@ public class OfficeWord extends Converter{
 	public void Convert(String Input, String Output) {
 		SetPath(Input,Output);
 		try {
-			Process process = Runtime.getRuntime().exec("cmd /c start batchs\\OfficeWord.bat");
-			if(process.waitFor()==0){
-				windowUtility.errorMessage("Convertido");
-			}
+			Runtime.getRuntime().exec("cmd /c start batchs\\OfficeWord.bat");
+			//We need wait the convertion since is an outside call, the limit is 180 seconds
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
 	private void SetPath(String Input,String Output){
 		//input will get the file source
 		File inputFile = new File("paths\\convertFilePatch.txt");
