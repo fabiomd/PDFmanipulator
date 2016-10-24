@@ -57,6 +57,12 @@ public class PDF extends format{
 				e.printStackTrace();
 			}
 		}
+		try {
+			Thread.sleep(6000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return count < max;
 	}
 	
@@ -67,10 +73,8 @@ public class PDF extends format{
 		tempFormat.Create(file.getPath());
 		if(!waitConvertion(fileTemp,lastModify,180)){
 			windowUtility.errorMessage("Tempo excedido");
-		}else{
-			windowUtility.errorMessage(lastModify + "\n" + new Date(fileTemp.lastModified()));
 		}
-		return new File(tempFormat.tempFileName);
+		return fileTemp;
 	}
 	
 	//This function is responsible for loading the file and reading the pages, if its not in pdf format, will automatically convert it and add
@@ -87,7 +91,7 @@ public class PDF extends format{
 		try {
 			loadTemp();
 			if(document!=null && tempDocument!=null){
-				for(int i=0;i<document.getDocumentCatalog().getPages().getCount();i++){
+				for(int i=0;i<document.getNumberOfPages();i++){
 					PDPage tempPag = (PDPage)document.getDocumentCatalog().getPages().get(i);
 					formatPage(tempPag);
 					tempDocument.importPage(tempPag);
@@ -104,18 +108,22 @@ public class PDF extends format{
 				document.close();
 			}
 			if(tempFormat != null){
-				tempFormat.ResetPage(tempFormat.tempDirectory + tempFormat.tempFileName);
+				tempFormat.ResetPage();
 			}
 		}
 	}
 	
 	private void loadTemp() throws IOException{
-		File tempFile = new File(tempFileName);
-		tempDocument = PDDocument.load(tempFile,MemoryUsageSetting.setupTempFileOnly());
+		tempDocument = PDDocument.load(new File(tempFileName),MemoryUsageSetting.setupTempFileOnly());
 	}
 	
 	private void unloadTemp() throws IOException{
 		tempDocument.save(tempFileName);
+		tempDocument.close();
+	}
+	
+	private void unloadTemp(String fileName) throws IOException{
+		tempDocument.save(fileName);
 		tempDocument.close();
 	}
 	
@@ -144,7 +152,6 @@ public class PDF extends format{
 	@Override
 	public void Create(String fileDirectory) {
 		Inicialize();
-		PDDocument document = new PDDocument(MemoryUsageSetting.setupTempFileOnly());
 		try {
 			ReadCover();
 			//loadTemp();
@@ -161,16 +168,9 @@ public class PDF extends format{
 				}
 			}
 			loadTemp();
-			if(document!=null && tempDocument!=null){
-				for(int i=0;i<tempDocument.getDocumentCatalog().getPages().getCount();i++){
-					PDPage tempPag = (PDPage)tempDocument.getDocumentCatalog().getPages().get(i);
-					formatPage(tempPag);
-					document.importPage(tempPag);
-				}
-				document.save(CheckFileExtension(fileDirectory));
-				document.close();
-				unloadTemp();				
-				windowUtility.Message("Documento criado com sucesso");
+			if(tempDocument!=null){
+				unloadTemp(CheckFileExtension(fileDirectory));
+				windowUtility.errorMessage("PDF Criado com sucesso");
 			}
 		} catch (ClosedDirectoryStreamException e) {
 			// TODO Auto-generated catch block
@@ -180,14 +180,6 @@ public class PDF extends format{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			if(document!=null){
-				try {
-					document.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 			ResetPage(tempFileName);
 		}
 	}
@@ -195,5 +187,10 @@ public class PDF extends format{
 	//this function will set all page format to A4
 	public void formatPage(PDPage page){
 		page.setMediaBox(PDRectangle.A4);
+	}
+
+	@Override
+	public void ResetPage() {
+		ResetPage(tempFileName);
 	}	
 }

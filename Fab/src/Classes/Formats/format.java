@@ -29,6 +29,8 @@ public abstract class format implements create{
 	}
 	
 	public abstract void ResetPage(String Filename);
+	
+	public abstract void ResetPage();
 	//class constructor
 	public format(data datafile){
 		this.datafile = datafile;

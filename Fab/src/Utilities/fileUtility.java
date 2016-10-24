@@ -32,4 +32,8 @@ public class fileUtility {
 		bw.write(content);
 		bw.close();
 	}
+	
+	public static String removeExtension(String fileName){
+		return fileName.split("\\.")[0];
+	}
 }
