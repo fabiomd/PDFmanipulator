@@ -64,7 +64,7 @@ public class PDF extends format{
 		return count < max;
 	}
 	
-	
+	//this function will convert a file that not in pdf to pdf
 	private File convert(format tempFormat,File file,String fileName){
 		File fileTemp = new File(tempFormat.tempFileName);
 		Date lastModify = new Date(fileTemp.lastModified());
@@ -93,6 +93,7 @@ public class PDF extends format{
 		return fileTemp2;
 	}
 	
+	//this function will verify if the file is alredy on pdf, if it is the return the own file, if not return his converted version
 	public File matchFile(File file){
 		if(!match(file.getName())){
 			for(int i=0;i<converted.size();i++){
@@ -164,6 +165,7 @@ public class PDF extends format{
 		}
 	}
 	
+	//this part only resets the pag
 	public void ResetPage(String Filename){
 		PDDocument temp = new PDDocument(MemoryUsageSetting.setupTempFileOnly());
 		try {
