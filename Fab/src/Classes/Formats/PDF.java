@@ -65,16 +65,6 @@ public class PDF extends format{
 	}
 	
 	
-	private File convert(format tempFormat,File file){
-		File fileTemp = new File(tempFormat.tempFileName);
-		Date lastModify = new Date(fileTemp.lastModified());
-		tempFormat.Create(file.getPath());
-		if(!waitConvertion(fileTemp,lastModify,180)){
-			windowUtility.errorMessage("Tempo excedido");
-		}
-		return fileTemp;
-	}
-	
 	private File convert(format tempFormat,File file,String fileName){
 		File fileTemp = new File(tempFormat.tempFileName);
 		Date lastModify = new Date(fileTemp.lastModified());
@@ -103,25 +93,22 @@ public class PDF extends format{
 		return fileTemp2;
 	}
 	
-	private File matchFile(File file){
-		for(int i=0;i<converted.size();i++){
-			if(fileUtility.removeExtension(converted.get(i).getName()).equals(fileUtility.removeExtension(file.getName()))){
-				return converted.get(i);
+	public File matchFile(File file){
+		if(!match(file.getName())){
+			for(int i=0;i<converted.size();i++){
+				if(fileUtility.removeExtension(converted.get(i).getName()).equals(fileUtility.removeExtension(file.getName()))){
+					return converted.get(i);
+				}
 			}
 		}
-		return null;
+		return file;
 	}
 	
 	//This function is responsible for loading the file and reading the pages, if its not in pdf format, will automatically convert it and add
 	private void ReadDoc(File file) throws IOException{
-		File tempFile = file;
+		File tempFile = matchFile(file);
 		format tempFormat = null;
-		//This part is the one responsable for checking if the file required is already on pdf format, if not will seek his format and convert it
-		if(!match(file.getName())){
-			tempFile = matchFile(file);
-			/*tempFormat = datafile.getFormat(datafile.matchFormat(file.getName()));
-			tempFile = convert(tempFormat,file);*/
-		}
+		//This part is the one responsible for checking if the file required is already on pdf format, if not will seek his format and convert it
 		
 		PDDocument document = PDDocument.load(tempFile,MemoryUsageSetting.setupTempFileOnly());
 		try {
@@ -231,6 +218,7 @@ public class PDF extends format{
 			e.printStackTrace();
 		}finally{
 			ResetPage(tempFileName);
+			resetConverted();
 		}
 	}
 	
@@ -243,4 +231,11 @@ public class PDF extends format{
 	public void ResetPage() {
 		ResetPage(tempFileName);
 	}	
+	
+	private void resetConverted(){
+		for(int i=0;i<converted.size();i++){
+			converted.get(i).delete();
+		}
+		converted = new ArrayList<File>();
+	}
 }

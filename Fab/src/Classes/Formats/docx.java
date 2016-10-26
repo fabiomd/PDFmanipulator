@@ -48,5 +48,4 @@ public class docx extends format{
 		format tempFormat = datafile.getFormat(datafile.matchFormat(".pdf"));
 		tempFormat.ResetPage(tempFileName);
 	}
-
 }

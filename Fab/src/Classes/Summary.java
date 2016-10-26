@@ -31,6 +31,19 @@ public class Summary{
 		this.format = format;
 	}
 	
+	private int GetPageCount(File file){
+		File temp = ((PDF)format).matchFile(file);
+		int pagCount = 0;
+		try {
+			PDDocument document = PDDocument.load(temp,MemoryUsageSetting.setupTempFileOnly());
+			pagCount = document.getNumberOfPages();
+			document.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return pagCount;
+	}
 	//This Function return a PDPage format, for more information go access ":https://pdfbox.apache.org/"
 	public void Generate(PDDocument mainDoc) throws IOException{
 		PDDocument document = new PDDocument(MemoryUsageSetting.setupTempFileOnly());
@@ -46,7 +59,6 @@ public class Summary{
 		// Start a new content stream which will "hold" the to be created content
 		PDPageContentStream contentStream = new PDPageContentStream(document, summaryPage);		
 		int pageCount = 1;
-		
 		//This part write the Summary String for a title 
 		String Tittle = "Sumário";
 		float center = summaryPage.getMediaBox().getWidth()*.5f - getStringWidth(Tittle,summaryPage.getMediaBox().getWidth(),fontStyle,fontSize)/2;
@@ -63,7 +75,8 @@ public class Summary{
 				if(datafile.GetMenu(i).placeOnSummary && datafile.GetMenu(i).GetMenu(j).isSelected()){
 					File[] tempFiles = datafile.getFilePatch(i).GetFilesChilds();
 					Lines.add(removeExtension(tempFiles[j].getName()));
-					PagNumbers.add(String.valueOf(pageCount++));
+					PagNumbers.add(String.valueOf(pageCount));
+					pageCount += GetPageCount(tempFiles[j]);
 				}
 			}
 		}
