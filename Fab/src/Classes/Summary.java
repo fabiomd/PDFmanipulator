@@ -53,6 +53,7 @@ public class Summary{
 		// Create a new font object selecting one of the PDF base fonts
 		PDFont fontStyle = PDType1Font.HELVETICA_BOLD;
 		int fontSize = 22;
+		int limitPerPage = 50;
 		float heighTitle = summaryPage.getMediaBox().getHeight()*.85f;
 		float Indetation = summaryPage.getMediaBox().getWidth()*.1f;
 		float IndexBegin = summaryPage.getMediaBox().getHeight()*.8f;
@@ -82,11 +83,16 @@ public class Summary{
 			}
 		}
 		//This function call will be responsible for writing in the summary page
-		writeLines(0,IndexBegin,contentStream,Lines,PagNumbers,"-",fontStyle,fontSize,summaryPage.getMediaBox().getWidth(),Indetation);
+		for(int i=0;i<Lines.size()/limitPerPage + 1;i++){
+			writeLines(0,IndexBegin,contentStream,Lines,PagNumbers,"-",fontStyle,fontSize,summaryPage.getMediaBox().getWidth(),Indetation,limitPerPage*i,limitPerPage);
+			summaryPages.add(summaryPage);
+			contentStream.close();
+			summaryPage = new PDPage();
+			contentStream = new PDPageContentStream(document, summaryPage);
+		}
+		contentStream.close();
 		// Make sure that the content stream is closed:
 		//we close the content Stream
-		summaryPages.add(summaryPage);
-		contentStream.close();
 		format temp = datafile.getFormat(0);
 		for(int i=0;i<summaryPages.getCount();i++){
 			((PDF)temp).formatPage(summaryPages.get(i));
@@ -124,12 +130,16 @@ public class Summary{
 	}
 	
 	//This function will write allLines based on the format: chapter title ----- page number
-	private void writeLines(float x,float y,PDPageContentStream contentStream,ArrayList<String> chapterName,ArrayList<String> pagNumbers,String fillCaracter,PDFont font,int fontSize,float pageWidth,float indetantion) throws IOException{
+	private void writeLines(float x,float y,PDPageContentStream contentStream,ArrayList<String> chapterName,ArrayList<String> pagNumbers,String fillCaracter,PDFont font,int fontSize,float pageWidth,float indetantion,int start,int limitPerPage) throws IOException{
 		//this variable determinated the space between each line
 		int lineHeight = fontSize + 2;
 		float tempY = y;
 		//while still lines to write
-		for(int i=0;i<chapterName.size();i++){
+		int range = chapterName.size();
+		if(chapterName.size() - start > limitPerPage){
+			range = limitPerPage + start;
+		}
+		for(int i=start;i<range;i++){
 			String Line = "";
 			//call this function to break a String in substrings for cases the text is bigger than the page width
 			ArrayList<String> temp = breakLine(chapterName.get(i),pageWidth*.7f,pageWidth,font,fontSize);

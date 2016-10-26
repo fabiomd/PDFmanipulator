@@ -5,7 +5,7 @@ ChangeFileOpenDirectory ThisDocument.Path
         OutputFileName:="D:\Users\tecengenharia\git\PDFManipulator\Fab\TEMP\tempDocConverted.pdf", _
         ExportFormat:=wdExportFormatPDF, _
         OpenAfterExport:=False, _
-        OptimizeFor:=wdExportOptimizeForPrint, _
+        OptimizeFor:=wdExportOptimizeForOnScreen, _
         Range:=wdExportAllDocument, _
         From:=1, _
         To:=1, _
