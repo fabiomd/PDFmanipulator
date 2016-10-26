@@ -15,8 +15,8 @@ import Classes.menu;
 public class leftPanel extends panel{
 	
 	//Set the Panel dimensions
-	public leftPanel(Dimension dimension,data data) {
-		super(dimension,data);
+	public leftPanel(Dimension screenDimension,data data,Point point,Dimension dimension) {
+		super(screenDimension,data,point,dimension);
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -24,7 +24,7 @@ public class leftPanel extends panel{
 	//Inicialize it
 	public void Inicialize() {
 		BoxLayout boxlayoutLeft = createBox(jPanel);
-        SetJPanel(jPanel,boxlayoutLeft,new Point(20,80),new Dimension(421,530));
+        SetJPanel(jPanel,boxlayoutLeft,point,dimension);
 	}
 	
 	//Create the buttons for it

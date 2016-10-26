@@ -69,7 +69,7 @@ public class actionGenerate implements ActionListener{
 			//Otherwise send a error Message
 			else{
 				if(count>1){
-				    // show a joptionpane dialog using showMessageDialog
+				    // show a option pane dialog using showMessageDialog
 					windowUtility.errorMessage("Escolha apenas uma capa");
 				}
 				else{

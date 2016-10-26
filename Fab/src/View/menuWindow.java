@@ -66,8 +66,8 @@ public class menuWindow extends JFrame implements init {
         //Define se pode ser redimencionado
         setResizable(false);   
         setBackground(Color.yellow);  
-        panel jPanelLeft = new leftPanel(getPreferredSize(),datafiles);    //painel esquerdo
-        panel jPanelRight = new rightPanel(getPreferredSize(),datafiles);    //painel direito 
+        panel jPanelLeft = new leftPanel(getPreferredSize(),datafiles,new Point(0,0),new Dimension(400,630));    //painel esquerdo
+        panel jPanelRight = new rightPanel(getPreferredSize(),datafiles,new Point(670,0),new Dimension(300,630));    //painel direito 
         ((leftPanel)jPanelLeft).CreateFileButtons();       
         Point point = new Point(20,80);
         ConfigureJScrollPane(jScrollPane,point,jPanelLeft.jPanel);

@@ -26,13 +26,17 @@ public abstract class panel extends JFrame implements init{
 	public JPanel jPanel = new JPanel();
 	protected Dimension windowSize = null;
 	protected data datafiles;
+	protected Point point;
+	protected Dimension dimension;
 	
 	public abstract void Inicialize();
 	
 	//contructor need a dimension and a data to work
-	public panel(Dimension dimension,data data){
-		this.windowSize = dimension;
+	public panel(Dimension screenDimension,data data,Point point,Dimension dimension){
+		this.windowSize = screenDimension;
 		this.datafiles = data;
+		this.point = point;
+		this.dimension = dimension;
 		Inicialize();
 	}
 	
@@ -66,5 +70,13 @@ public abstract class panel extends JFrame implements init{
 		jButton.setLocation(point);
 		jButton.setAlignmentX(alignment);
 		return jButton;
+	}
+	
+	protected int GetDimensionExcaleHeight(float porcentage){
+		return (int)(dimension.height*porcentage);
+	}
+	
+	protected int GetDimensionExcaleWidth(float porcentage){
+		return (int)(dimension.width*porcentage);
 	}
 }

@@ -17,8 +17,8 @@ import Classes.data;
 public class rightPanel extends panel{
 
 	//needs a dimension and a data
-	public rightPanel(Dimension dimension,data data) {
-		super(dimension,data);
+	public rightPanel(Dimension screenDimension,data data,Point point,Dimension dimension) {
+		super(screenDimension,data,point,dimension);
 	}
 
 	private static final long serialVersionUID = 1L;
@@ -29,14 +29,18 @@ public class rightPanel extends panel{
 		jPanel.setSize(dimension);
 	}
 	
+	private Dimension getButtonSize(){
+		return new Dimension(GetDimensionExcaleHeight(.3f),GetDimensionExcaleWidth(.2f));
+	}
+	
 	//inicialize it
 	public void Inicialize() {
 		BoxLayout boxlayoutRight = createBox(jPanel);
-        SetJPanel(jPanel,boxlayoutRight,new Point(442,0),new Dimension(511,609));
-        JButton button = SetJButton("Gerar Relatorio",new Dimension(200,50),new Point(300,10),RIGHT_ALIGNMENT);
+        SetJPanel(jPanel,boxlayoutRight,point,dimension);
+        JButton button = SetJButton("Gerar Relatório",getButtonSize(),new Point(GetDimensionExcaleHeight(.05f),GetDimensionExcaleWidth(.06f)),RIGHT_ALIGNMENT);
         button.addActionListener(new actionGenerate(datafiles));
         jPanel.add(button);
-        JButton button2 = SetJButton("Resetar Selecao",new Dimension(200,50),new Point(300,486),RIGHT_ALIGNMENT);
+        JButton button2 = SetJButton("Resetar Seleção",getButtonSize(),new Point(GetDimensionExcaleHeight(.05f),GetDimensionExcaleWidth(1.6f)),RIGHT_ALIGNMENT);
         button2.addActionListener(new actionReset(datafiles));
         jPanel.add(button2);
 	}
