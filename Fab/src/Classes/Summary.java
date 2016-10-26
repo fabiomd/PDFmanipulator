@@ -89,6 +89,7 @@ public class Summary{
 			contentStream.close();
 			summaryPage = new PDPage();
 			contentStream = new PDPageContentStream(document, summaryPage);
+			IndexBegin = summaryPage.getMediaBox().getHeight()*.95f;
 		}
 		contentStream.close();
 		// Make sure that the content stream is closed:
