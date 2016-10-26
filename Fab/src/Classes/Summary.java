@@ -31,6 +31,7 @@ public class Summary{
 		this.format = format;
 	}
 	
+	//this part get the number of page with the document, if is not pdf file, will get his converted version
 	private int GetPageCount(File file){
 		File temp = ((PDF)format).matchFile(file);
 		int pagCount = 0;
