@@ -3,6 +3,7 @@ package Classes.Formats;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.ClosedDirectoryStreamException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.apache.pdfbox.io.MemoryUsageSetting;
@@ -10,6 +11,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
 import Classes.data;
+import Utilities.fileUtility;
 import Utilities.windowUtility;
 
 /*
@@ -20,6 +22,7 @@ import Utilities.windowUtility;
 public class PDF extends format{
 	
 	private PDDocument tempDocument = null;
+	private ArrayList<File> converted = new ArrayList<File>();
 	
 	public PDF(data datafile) {
 		super(datafile);
@@ -44,6 +47,7 @@ public class PDF extends format{
 			}
 		}
 	}
+
 	
 	//this function will sleep 1 until the file is modify or the limit is reach
 	private boolean waitConvertion(File file,Date lastModify,int max){
@@ -56,12 +60,6 @@ public class PDF extends format{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		try {
-			Thread.sleep(6000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		return count < max;
 	}
@@ -77,14 +75,52 @@ public class PDF extends format{
 		return fileTemp;
 	}
 	
+	private File convert(format tempFormat,File file,String fileName){
+		File fileTemp = new File(tempFormat.tempFileName);
+		Date lastModify = new Date(fileTemp.lastModified());
+		tempFormat.Create(file.getPath());
+		if(!waitConvertion(fileTemp,lastModify,180)){
+			windowUtility.errorMessage("Tempo excedido");
+		}
+		File fileTemp2 = new File(fileUtility.removeExtension(fileName)+".pdf");
+		PDDocument document=null;
+		try {
+			document = PDDocument.load(fileTemp,MemoryUsageSetting.setupTempFileOnly());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			try {
+				if(document!=null){
+					document.save(fileTemp2);
+					document.close();
+					}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return fileTemp2;
+	}
+	
+	private File matchFile(File file){
+		for(int i=0;i<converted.size();i++){
+			if(fileUtility.removeExtension(converted.get(i).getName()).equals(fileUtility.removeExtension(file.getName()))){
+				return converted.get(i);
+			}
+		}
+		return null;
+	}
+	
 	//This function is responsible for loading the file and reading the pages, if its not in pdf format, will automatically convert it and add
 	private void ReadDoc(File file) throws IOException{
 		File tempFile = file;
 		format tempFormat = null;
 		//This part is the one responsable for checking if the file required is already on pdf format, if not will seek his format and convert it
 		if(!match(file.getName())){
-			tempFormat = datafile.getFormat(datafile.matchFormat(file.getName()));
-			tempFile = convert(tempFormat,file);
+			tempFile = matchFile(file);
+			/*tempFormat = datafile.getFormat(datafile.matchFormat(file.getName()));
+			tempFile = convert(tempFormat,file);*/
 		}
 		
 		PDDocument document = PDDocument.load(tempFile,MemoryUsageSetting.setupTempFileOnly());
@@ -127,6 +163,19 @@ public class PDF extends format{
 		tempDocument.close();
 	}
 	
+	private void maxConvert(){
+		for(int i=0;i<datafile.GetMenusSize();i++){
+			for(int j=0;j<datafile.GetMenu(i).GetMenusSize();j++){
+				if(datafile.GetMenu(i).GetMenu(j).isSelected()){
+					File[] files = datafile.getFilePatch(i).GetFilesChilds();
+					if(!match(files[j].getName())){
+						format tempFormat = datafile.getFormat(datafile.matchFormat(files[j].getName()));
+						converted.add(convert(tempFormat,files[j],"TEMP\\"+files[j].getName()));
+					}
+				}
+			}
+		}
+	}
 	
 	public void ResetPage(String Filename){
 		PDDocument temp = new PDDocument(MemoryUsageSetting.setupTempFileOnly());
@@ -152,11 +201,12 @@ public class PDF extends format{
 	@Override
 	public void Create(String fileDirectory) {
 		Inicialize();
+		maxConvert();
 		try {
 			ReadCover();
-			//loadTemp();
-			//summary.Generate(tempDocument);
-			//unloadTemp();
+			loadTemp();
+			summary.Generate(tempDocument);
+			unloadTemp();
 			for(int i=0;i<datafile.GetMenusSize();i++){
 				if(i!=cover){
 					for(int j=0;j<datafile.GetMenu(i).GetMenusSize();j++){

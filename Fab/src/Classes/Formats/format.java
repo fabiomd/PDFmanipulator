@@ -22,6 +22,9 @@ public abstract class format implements create{
 	protected String tempDirectory = "TEMP\\";
 	protected String tempFileName;
 	
+	public data getDatafile(){
+		return datafile;
+	}
 	//this function compares the class name, if is equals then the string passed is a format recognizeble by data
 	public boolean match(String docType){
 		String[] temp = docType.split("\\.");
@@ -41,7 +44,7 @@ public abstract class format implements create{
 	protected abstract void Inicialize();
 	
 	protected void GetSummary(){
-		this.summary = new Summary(datafile);
+		this.summary = new Summary(this);
 	}
 	
 	//this part read the cover marked

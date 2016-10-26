@@ -24,10 +24,11 @@ public class Summary{
 	
 	//needs access the data
 	private data datafile;
-	
+	private format format;
 	//It passed by constructor
-	public Summary(data data){
-		this.datafile = data;
+	public Summary(format format){
+		this.datafile = format.getDatafile();
+		this.format = format;
 	}
 	
 	//This Function return a PDPage format, for more information go access ":https://pdfbox.apache.org/"
@@ -56,7 +57,7 @@ public class Summary{
 		//this List will keep each chapter start page number
 		ArrayList<String> PagNumbers = new ArrayList<String>();
 		
-		//In this loop all line and pages are read
+		//In this loop all line and pages are readed
 		for(int i=0;i<datafile.GetMenusSize();i++){
 			for(int j=0;j<datafile.GetMenu(i).GetMenusSize();j++){
 				if(datafile.GetMenu(i).placeOnSummary && datafile.GetMenu(i).GetMenu(j).isSelected()){
