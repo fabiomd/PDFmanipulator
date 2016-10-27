@@ -37,10 +37,10 @@ public class rightPanel extends panel{
 	public void Inicialize() {
 		BoxLayout boxlayoutRight = createBox(jPanel);
         SetJPanel(jPanel,boxlayoutRight,point,dimension);
-        JButton button = SetJButton("Gerar Relatório",getButtonSize(),new Point(GetDimensionExcaleHeight(.05f),GetDimensionExcaleWidth(.06f)),RIGHT_ALIGNMENT);
+        JButton button = SetJButton("Gerar Relatório",getButtonSize(),new Point(GetDimensionExcaleHeight(.2f),GetDimensionExcaleWidth(.06f)),RIGHT_ALIGNMENT);
         button.addActionListener(new actionGenerate(datafiles));
         jPanel.add(button);
-        JButton button2 = SetJButton("Resetar Seleção",getButtonSize(),new Point(GetDimensionExcaleHeight(.05f),GetDimensionExcaleWidth(1.6f)),RIGHT_ALIGNMENT);
+        JButton button2 = SetJButton("Resetar Seleção",getButtonSize(),new Point(GetDimensionExcaleHeight(.2f),GetDimensionExcaleWidth(1.1f)),RIGHT_ALIGNMENT);
         button2.addActionListener(new actionReset(datafiles));
         jPanel.add(button2);
 	}
