@@ -37,17 +37,25 @@ public class rightPanel extends panel{
 	public void Inicialize() {
 		BoxLayout boxlayoutRight = createBox(jPanel);
         SetJPanel(jPanel,boxlayoutRight,point,dimension);
-        JButton button = SetJButton("Gerar Relatório",getButtonSize(),new Point(GetDimensionExcaleHeight(.2f),GetDimensionExcaleWidth(.06f)),RIGHT_ALIGNMENT);
+        JButton button = SetJButton("Gerar Relatório",getButtonSize(),new Point(GetDimensionExcaleWidth(.5f) - getButtonCorrectionHeight(1f),GetDimensionExcaleHeight(.0f) - getButtonCorrectionWidth(-.1f)),RIGHT_ALIGNMENT);
         button.addActionListener(new actionGenerate(datafiles));
         jPanel.add(button);
-        JButton button2 = SetJButton("Resetar Seleção",getButtonSize(),new Point(GetDimensionExcaleHeight(.2f),GetDimensionExcaleWidth(1.1f)),RIGHT_ALIGNMENT);
+        JButton button2 = SetJButton("Resetar Seleção",getButtonSize(),new Point(GetDimensionExcaleWidth(.5f) - getButtonCorrectionHeight(1f),GetDimensionExcaleHeight(.8f) - getButtonCorrectionWidth(.8f)),RIGHT_ALIGNMENT);
         button2.addActionListener(new actionReset(datafiles));
         jPanel.add(button2);
-        JButton button3 = SetJButton("Selecionar SubMenu",getButtonSize(),new Point(GetDimensionExcaleHeight(.2f),GetDimensionExcaleWidth(.9f)),RIGHT_ALIGNMENT);
+        JButton button3 = SetJButton("Selecionar SubMenu",getButtonSize(),new Point(GetDimensionExcaleWidth(.5f) - getButtonCorrectionHeight(1f),GetDimensionExcaleHeight(.8f) - getButtonCorrectionWidth(.45f)),RIGHT_ALIGNMENT);
         button3.addActionListener(new actionMaxSelect(datafiles,true));
         jPanel.add(button3);
-        JButton button4 = SetJButton("Desselecionar SubMenu",getButtonSize(),new Point(GetDimensionExcaleHeight(.2f),GetDimensionExcaleWidth(.7f)),RIGHT_ALIGNMENT);
+        JButton button4 = SetJButton("Desselecionar SubMenu",getButtonSize(),new Point(GetDimensionExcaleWidth(.5f) - getButtonCorrectionHeight(1f),GetDimensionExcaleHeight(.8f) - getButtonCorrectionWidth(.1f)),RIGHT_ALIGNMENT);
         button4.addActionListener(new actionMaxSelect(datafiles,false));
         jPanel.add(button4);
+	}
+	
+	private int getButtonCorrectionWidth(float force){
+		return (int)(getButtonSize().width*force);
+	}
+	
+	private int getButtonCorrectionHeight(float force){
+		return (int)(getButtonSize().height*force);
 	}
 }
