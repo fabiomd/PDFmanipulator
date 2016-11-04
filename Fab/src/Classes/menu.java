@@ -33,6 +33,9 @@ public class menu {
     	}
     }
     
+    public boolean isSelected(){
+    	return this.title.getBackground().equals(backGround) && this.title.getForeground().equals(foreGround);
+    }
     //Just a function to prevent out of bounds exception
     public int GetMenusSize(){
     	return this.sub_menus.size();

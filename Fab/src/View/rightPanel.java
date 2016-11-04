@@ -43,5 +43,11 @@ public class rightPanel extends panel{
         JButton button2 = SetJButton("Resetar Seleção",getButtonSize(),new Point(GetDimensionExcaleHeight(.2f),GetDimensionExcaleWidth(1.1f)),RIGHT_ALIGNMENT);
         button2.addActionListener(new actionReset(datafiles));
         jPanel.add(button2);
+        JButton button3 = SetJButton("Selecionar SubMenu",getButtonSize(),new Point(GetDimensionExcaleHeight(.2f),GetDimensionExcaleWidth(.9f)),RIGHT_ALIGNMENT);
+        button3.addActionListener(new actionMaxSelect(datafiles,true));
+        jPanel.add(button3);
+        JButton button4 = SetJButton("Desselecionar SubMenu",getButtonSize(),new Point(GetDimensionExcaleHeight(.2f),GetDimensionExcaleWidth(.7f)),RIGHT_ALIGNMENT);
+        button4.addActionListener(new actionMaxSelect(datafiles,false));
+        jPanel.add(button4);
 	}
 }
