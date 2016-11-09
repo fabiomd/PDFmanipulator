@@ -1,0 +1,36 @@
+' This Macro will merge all files inside the folder
+Sub MergeDocx()
+Dim fname As String, FI() As String
+Dim i As Long
+Dim dx As Document
+Directory = "D:\Users\tecengenharia\git\PDFManipulator\Fab\TEST\"
+ReDim FI(1000)
+fname = Dir$(Directory + "*.docx")
+Do While fname <> "": i = i + 1: FI(i) = Directory & fname: fname = Dir$: Loop
+ReDim Preserve FI(i)
+Dim target As Document
+Dim docRange As Range
+' Create a blank document
+If UBound(FI) > 0 Then
+    Set target = Documents.Open(FI(1))
+    Set docRange = target.Range
+    docRange.Collapse wdCollapseEnd
+    ' docRange.MoveEnd Unit:=wdCharacter, Count:=-1
+    ' Insert a page breaker to maintain format
+    docRange.InsertBreak Type:=wdSectionBreakNextPage
+    For i = 2 To UBound(FI)
+        Set dx = Documents.Open(FI(i), Visible:=False)
+        Set docRange = dx.Range
+        docRange.Collapse wdCollapseEnd
+        ' Insert a page breaker to maintain format
+        docRange.InsertBreak Type:=wdSectionBreakNextPage
+        Set targetRange = target.Range
+        targetRange.Collapse wdCollapseEnd
+        ' targetRange.MoveEnd Unit:=wdCharacter, Count:=-2
+        Set docRange = dx.Range
+        docRange.MoveEnd Unit:=wdCharacter, Count:=-1
+        targetRange.FormattedText = docRange.FormattedText
+        dx.Close wdDoNotSaveChanges
+    Next i
+End If
+End Sub
