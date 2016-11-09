@@ -2,11 +2,8 @@ package Utilities.Converters;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-
 import Utilities.Converter;
 import Utilities.fileUtility;
-import Utilities.windowUtility;
 
 /*
  * @Author: Fábio Moreira Duarte
