@@ -37,5 +37,9 @@ pushd ..
 @echo         targetRange.FormattedText = docRange.FormattedText>> MacroOffice/MergeDocx.txt
 @echo         dx.Close wdDoNotSaveChanges>> MacroOffice/MergeDocx.txt
 @echo     Next i>> MacroOffice/MergeDocx.txt
+@echo     Set targetRange = target.Range>> MacroOffice/MergeDocx.txt
+@echo     targetRange.Collapse wdCollapseEnd>> MacroOffice/MergeDocx.txt
+@echo     targetRange.MoveEnd Unit:=wdCharacter, Count:=-1>> MacroOffice/MergeDocx.txt
+@echo     targetRange.InsertBreak Type:=wdPageBreak>> MacroOffice/MergeDocx.txt
 @echo End If>> MacroOffice/MergeDocx.txt
 @echo End Sub>> MacroOffice/MergeDocx.txt

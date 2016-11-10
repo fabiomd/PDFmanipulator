@@ -32,5 +32,9 @@ If UBound(FI) > 0 Then
         targetRange.FormattedText = docRange.FormattedText
         dx.Close wdDoNotSaveChanges
     Next i
+    Set targetRange = target.Range
+    targetRange.Collapse wdCollapseEnd
+    targetRange.MoveEnd Unit:=wdCharacter, Count:=-1
+    targetRange.InsertBreak Type:=wdPageBreak
 End If
 End Sub
