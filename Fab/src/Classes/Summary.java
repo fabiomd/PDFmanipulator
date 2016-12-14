@@ -132,7 +132,7 @@ public class Summary{
 	
 	//This function will write allLines based on the format: chapter title ----- page number
 	private void writeLines(float x,float y,PDPageContentStream contentStream,ArrayList<String> chapterName,ArrayList<String> pagNumbers,String fillCaracter,PDFont font,int fontSize,float pageWidth,float indetantion,int start,int limitPerPage) throws IOException{
-		//this variable determinated the space between each line
+		//this variable determinate the space between each line
 		int lineHeight = fontSize + 2;
 		float tempY = y;
 		//while still lines to write
