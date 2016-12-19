@@ -108,9 +108,11 @@ public class data implements init,create{
 				filepatchs.add(new filePatchs(files[i]));
 				//Next for each file will create a menu and initialize it
 				int j=0;
+				int count = 0;
 				if(sub_files != null){
 					for(j=0;j<sub_files.length;j++){
 						if(checkSupported(sub_files[j].getName()) && sub_files[j].isFile()){
+							count++;
 							JCheckBox temp_jcheckbox = new JCheckBox();
 							temp_jcheckbox.setText(sub_files[j].getName());
 							temp_jcheckbox.setVisible(false);
@@ -120,7 +122,7 @@ public class data implements init,create{
 					}
 					//then add it to the list
 				}
-				if(j>0){
+				if(count>0){
 					menus.add(temp_menu);
 				}
 			}
