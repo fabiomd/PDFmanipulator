@@ -97,7 +97,7 @@ public class data implements init,create{
 		}
 		//Then for each folder he will call the function GetChilds, getting all the files inside of it
 		for(int i=0;i<files.length;i++){
-			if(!files[i].getName().toLowerCase().equals(".gitignore")){
+			if(!files[i].getName().toLowerCase().equals(".gitignore") && files[i].isDirectory()){
 				JButton temp_Jbutton = new JButton();
 				temp_Jbutton.setText(files[i].getName());
 				temp_Jbutton.setHorizontalAlignment(SwingConstants.LEFT);
@@ -110,7 +110,7 @@ public class data implements init,create{
 				int j=0;
 				if(sub_files != null){
 					for(j=0;j<sub_files.length;j++){
-						if(checkSupported(sub_files[j].getName())){
+						if(checkSupported(sub_files[j].getName()) && sub_files[j].isFile()){
 							JCheckBox temp_jcheckbox = new JCheckBox();
 							temp_jcheckbox.setText(sub_files[j].getName());
 							temp_jcheckbox.setVisible(false);
